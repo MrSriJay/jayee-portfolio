@@ -7,6 +7,7 @@ import { SkillsSections } from "../compoents/SkillsSections"
 import { ProjectsSections } from "../compoents/ProjectsSection"
 import { ContactSection } from "../compoents/ConstactSection.jsx"
 import { Footer } from "../compoents/Footer.jsx"
+import {EducationSection } from "../compoents/EducationSection.jsx"
 
 
 export const Home = () => {
@@ -28,6 +29,7 @@ export const Home = () => {
           <AboutMeSection/>
           <SkillsSections/>
           <ProjectsSections/>
+          <EducationSection/>
           <ContactSection/>
         </main>
 
