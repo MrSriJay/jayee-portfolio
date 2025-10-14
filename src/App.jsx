@@ -6,7 +6,7 @@ function App() {
 
   return (
     <>
-     <BrowserRouter>
+     <BrowserRouter  basename="/jayee-portfolio">
        <Routes>
         <Route index element={<Home/>}/>
         <Route path="*" element={<NotFound/>}/>
