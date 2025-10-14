@@ -1,4 +1,11 @@
+import { useEffect, useState } from "react";
 import { Github, ArrowRight } from "lucide-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
 
 const projects = [
   {
@@ -27,6 +34,18 @@ const projects = [
 
 
 export const ProjectsSections = () => {
+  const [repos, setRepos] = useState([]);
+    useEffect(() => {
+        fetch("https://api.github.com/users/MrSriJay/repos?sort=updated")
+        .then((res) => res.json())
+        .then((data) => {
+            const ownRepos = data.filter((repo) => !repo.fork);
+            setRepos(ownRepos);
+        })
+        .catch((err) => console.error("Error fetching repos:", err));
+    }, []);  
+
+
   return (
     <section id="projects" className="py-24 px-4 relative">
         <div className="container mx-auto max-w-5xl">
@@ -88,6 +107,46 @@ export const ProjectsSections = () => {
             </div>
              
             <div className="text-center mt-12">
+                 <h3 className="text-2xl font-foreground-semibold text-center text-primary mb-10">GitHub Projects</h3>
+                 <Swiper
+                    modules={[Navigation, Pagination, Autoplay]}
+                    spaceBetween={30}
+                    slidesPerView={1}
+                    navigation
+                    pagination={{ clickable: true }}
+                    autoplay={{ delay: 4000, disableOnInteraction: false }}
+                    breakpoints={{
+                        640: { slidesPerView: 1 },
+                        768: { slidesPerView: 2 },
+                        1024: { slidesPerView: 3 },
+                    }}
+                    className="pb-10"
+                    >
+                    {repos.map((repo) => (
+                        <SwiperSlide key={repo.id}>
+                        <div className="bg-card p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 h-full flex flex-col justify-between">
+                            <div>
+                            <h3 className="text-xl font-semibold mb-2 text-primary">{repo.name}</h3>
+                            <p className="text-sm text-muted-foreground mb-4">
+                                {repo.description || "No description available."}
+                            </p>
+                            </div>
+                            <div className="flex justify-between text-xs text-gray-500 mb-3">
+                            <span>{repo.language || "Unknown"}</span>
+                            <span>⭐ {repo.stargazers_count}</span>
+                            </div>
+                            <a
+                            href={repo.html_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm font-medium text-primary hover:underline mt-auto"
+                            >
+                            View on GitHub →
+                            </a>
+                        </div>
+                        </SwiperSlide>
+                    ))}
+                    </Swiper>
                 <a
                     className="cosmic-button w-fit flex items-center mx-auto gap-2"
                     target="_blank"
