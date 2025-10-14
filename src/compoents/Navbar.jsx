@@ -1,6 +1,7 @@
 import { cn } from "../lib/Utils";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import { ThemeToggle } from "../compoents/ThemeToggle"
 
 const navItems = [
   { name: "Home", href: "#main" },
@@ -60,6 +61,7 @@ export const Navbar = () => {
               {item.name}
             </a>
           ))}
+          <ThemeToggle/>
         </div>
 
         {/* Mobile Nav Items */}
@@ -93,6 +95,7 @@ export const Navbar = () => {
               </a>
             ))}
           </div>
+          <ThemeToggle/>
         </div>
       </div>
     </nav>
