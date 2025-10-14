@@ -5,8 +5,8 @@
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
 
-  --color-primary: hsl(var(--primary)); /* Updated to blue */
-  --color-primary-foreground: hsl(var(--primary-foreground)); /* Updated to light blue */
+  --color-primary: hsl(var(--primary)); /* Bronze color */
+  --color-primary-foreground: hsl(var(--primary-foreground)); /* Lighter bronze for text */
 
   --color-card: hsl(var(--card));
 
@@ -28,6 +28,7 @@
       transform: translateY(-10px);
     }
   }
+
   @keyframes pulse-subtle {
     0%,
     100% {
@@ -37,6 +38,7 @@
       opacity: 0.8;
     }
   }
+
   @keyframes fade-in {
     from {
       opacity: 0;
@@ -47,6 +49,7 @@
       transform: translateY(0);
     }
   }
+
   @keyframes meteor {
     0% {
       transform: rotate(215deg) translateX(0);
@@ -64,29 +67,40 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
+    --background: 60 40% 90%; /* Cream color background for light theme */
+    --foreground: 30 40% 25%; /* Brown/bronze text color */
 
-    --card: 0 0% 100%;
-
-    /* Updated primary colors to blue range */
-    --primary: 210 60% 50%; /* A blue color (hue 210) */
-    --primary-foreground: 210 40% 90%; /* Lighter blue for text */
-
-    --border: 214 32% 91%;
+    --card: 60 40% 95%; /* Light creamish card background */
+    
+    --primary: 30 40% 45%; /* Bronze color for primary elements */
+    --primary-foreground: 30 40% 25%; /* Dark bronze for text */
+    
+    --border: 30 40% 40%; /* Darker bronze border */
   }
 
   .dark {
-    --background: 222 47% 4%;
-    --foreground: 213 31% 91%;
+    --background: 210 15% 10%; /* Even darker greyish-blue for dark mode */
+    --foreground: 210 10% 90%; /* Light greyish-blue text for dark mode */
 
-    --card: 222 47% 8%;
+    --card: 210 15% 15%; /* Darker greyish-blue card background for dark mode */
 
-    /* Updated primary colors for dark mode */
-    --primary: 210 70% 60%; /* Darker blue */
-    --primary-foreground: 213 31% 91%; /* Light blue for foreground text */
+    --primary: 210 25% 55%; /* Slightly muted greyish-blue */
+    --primary-foreground: 210 10% 90%; /* Lighter greyish-blue for text in dark mode */
 
-    --border: 217 33% 20%;
+    --border: 210 15% 30%; /* Darker border for dark mode */
+  }
+
+  /* Brighter Light Mode Color Scheme with Cream and Bronze */
+  .light {
+    --background: 60 40% 90%; /* Cream color background */
+    --foreground: 30 40% 25%; /* Deep brown or bronze text color */
+
+    --card: 60 40% 95%; /* Light creamish card background */
+
+    --primary: 30 40% 45%; /* Bronze color */
+    --primary-foreground: 30 40% 25%; /* Dark brown/bronze text color */
+
+    --border: 30 40% 40%; /* Darker bronze border */
   }
 
   * {
@@ -126,11 +140,11 @@
 
 @utility text-glow {
   @apply relative;
-  text-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
+  text-shadow: 0 0 15px rgba(200, 100, 50, 0.6), 0 0 25px rgba(200, 100, 50, 0.3); /* Brighter brownish glow */
 }
 
 @utility card-hover {
-  @apply transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg;
+  @apply transition-transform duration-300 hover:scale-[1.05] hover:shadow-xl hover:bg-primary-foreground;
 }
 
 @utility gradient-border {
@@ -142,18 +156,20 @@
 
 @utility cosmic-button {
   @apply px-6 py-2 rounded-full bg-primary text-primary-foreground font-medium 
-         transition-all duration-300 hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]
-         hover:scale-105 active:scale-95;
+         transition-all duration-300 hover:shadow-[0_0_15px_rgba(139,92,246,0.5)]
+         hover:scale-110 active:scale-95 ease-in-out;
 }
 
 @utility star {
   @apply absolute rounded-full bg-white;
-  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 12px 4px rgba(255, 255, 255, 0.6); /* Brighter star glow */
+  animation: float 5s ease-in-out infinite;
 }
 
 @utility meteor {
   @apply absolute bg-linear-to-r from-white via-white to-transparent rounded-full;
-  box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.5); /* Brighter meteor glow */
+  animation: meteor 5s linear infinite;
 }
 
 #root {
@@ -161,6 +177,21 @@
   margin: 0 auto;
   padding: 0;
   text-align: center;
+}
+
+/* Hover animation on card */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hover effect for buttons */
+button:hover {
+  background-color: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
 }
 
 /* Hide scrollbar for Chrome, Safari, Edge */
@@ -172,5 +203,3 @@
 .scrollbar-none {
   scrollbar-width: none;
 }
-
-
