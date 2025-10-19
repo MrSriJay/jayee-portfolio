@@ -51,9 +51,7 @@ const projects = [
 
 export const ProjectsSections = () => {
   const [repos, setRepos] = useState([]);
-  const [theme, setTheme] = useState(
-    document.documentElement.classList.contains("dark") ? "dark" : "light"
-  );
+  const [theme, setTheme] = useState(null); // Set initial state as null to avoid rendering too early
 
   // Detect theme changes dynamically
   useEffect(() => {
@@ -66,6 +64,10 @@ export const ProjectsSections = () => {
       attributes: true,
       attributeFilter: ["class"],
     });
+
+    // Set the theme on the first render
+    const isDark = document.documentElement.classList.contains("dark");
+    setTheme(isDark ? "dark" : "light");
 
     return () => observer.disconnect();
   }, []);
@@ -80,6 +82,11 @@ export const ProjectsSections = () => {
       })
       .catch((err) => console.error("Error fetching repos:", err));
   }, []);
+
+  // Render only when theme is set
+  if (theme === null) {
+    return <div>Loading...</div>; // Show loading state until theme is detected
+  }
 
   return (
     <section id="projects" className="py-24 px-4 relative">
@@ -154,47 +161,47 @@ export const ProjectsSections = () => {
             GitHub Projects
           </h3>
 
-        <Swiper
-        modules={[Navigation, Pagination, Autoplay]}
-        spaceBetween={30}
-        slidesPerView={1}
-        navigation
-        pagination={{ clickable: true }}
-        autoplay={{ delay: 4000, disableOnInteraction: false }}
-        breakpoints={{
-            640: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-        }}
-        className="pb-10"
-        >
-        {repos.map((repo) => (
-            <SwiperSlide key={repo.id}>
-            <div className="bg-card p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 h-full flex flex-col justify-between">
-                <div>
-                <h3 className="text-xl font-semibold mb-2 text-primary">
-                    {repo.name}
-                </h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                    {repo.description || "No description available."}
-                </p>
+          <Swiper
+            modules={[Navigation, Pagination, Autoplay]}
+            spaceBetween={30}
+            slidesPerView={1}
+            navigation
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 4000, disableOnInteraction: false }}
+            breakpoints={{
+              640: { slidesPerView: 1 },
+              768: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
+            }}
+            className="pb-10"
+          >
+            {repos.map((repo) => (
+              <SwiperSlide key={repo.id}>
+                <div className="bg-card p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 h-full flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2 text-primary">
+                      {repo.name}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      {repo.description || "No description available."}
+                    </p>
+                  </div>
+                  <div className="flex justify-between text-xs text-gray-500 mb-3">
+                    <span>{repo.language || "Unknown"}</span>
+                    <span>⭐ {repo.stargazers_count}</span>
+                  </div>
+                  <a
+                    href={repo.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-medium text-primary hover:underline mt-auto"
+                  >
+                    View on GitHub →
+                  </a>
                 </div>
-                <div className="flex justify-between text-xs text-gray-500 mb-3">
-                <span>{repo.language || "Unknown"}</span>
-                <span>⭐ {repo.stargazers_count}</span>
-                </div>
-                <a
-                href={repo.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm font-medium text-primary hover:underline mt-auto"
-                >
-                View on GitHub →
-                </a>
-            </div>
-            </SwiperSlide>
-        ))}
-        </Swiper>
+              </SwiperSlide>
+            ))}
+          </Swiper>
 
           <a
             className="cosmic-button w-fit flex items-center mx-auto gap-2"
