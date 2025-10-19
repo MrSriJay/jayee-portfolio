@@ -180,10 +180,16 @@
 }
 
 /* Hover animation on card */
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out;
+.card-hover {
+  @apply scale-105 shadow-xl bg-primary/10;
+}
+
+.card-hover:hover .text-left h3 {
+  color: var(--primary-foreground) !important; /* Ensure text is visible on hover */
+}
+
+.card-hover:hover .text-muted-foreground {
+  color: var(--primary-foreground) !important; /* Ensure percentage text is visible on hover */
 }
 
 /* Hover effect for buttons */
@@ -202,4 +208,57 @@ button:hover {
 /* Hide scrollbar for Firefox */
 .scrollbar-none {
   scrollbar-width: none;
+}
+
+/* --- Swiper Buttons & Pagination --- */
+
+/* Light Theme (default) */
+.swiper-button-next,
+.swiper-button-prev {
+  color: hsl(38, 80%, 50%) !important; /* bronze / gold */
+  transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: hsl(25, 40%, 30%) !important; /* deep brown on hover */
+  text-shadow: 0 0 8px rgba(120, 70, 30, 0.4);
+  transform: scale(1.1);
+}
+
+/* Pagination Dots */
+.swiper-pagination-bullet {
+  background-color: hsl(38, 80%, 50%) !important;
+  opacity: 0.4;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1;
+  background-color: hsl(25, 40%, 30%) !important; /* match dark brown */
+  box-shadow: 0 0 5px rgba(120, 70, 30, 0.4);
+}
+
+/* --- Dark Theme Overrides --- */
+.dark .swiper-button-next,
+.dark .swiper-button-prev {
+  color: hsl(215, 40%, 70%) !important; /* greyish blue */
+}
+
+.dark .swiper-button-next:hover,
+.dark .swiper-button-prev:hover {
+  color: hsl(215, 80%, 70%) !important;
+  text-shadow: 0 0 10px rgba(120, 160, 255, 0.6);
+  transform: scale(1.1);
+}
+
+.dark .swiper-pagination-bullet {
+  background-color: hsl(215, 40%, 70%) !important;
+  opacity: 0.4;
+}
+
+.dark .swiper-pagination-bullet-active {
+  opacity: 1;
+  background-color: hsl(215, 80%, 70%) !important;
+  box-shadow: 0 0 6px rgba(120, 160, 255, 0.4);
 }
