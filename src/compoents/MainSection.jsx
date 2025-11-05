@@ -8,7 +8,6 @@ export const MainSection = () => {
 
   const [typedName, setTypedName] = useState("");
   const [showCursor, setShowCursor] = useState(true);
-  const [showDescription, setShowDescription] = useState(false); // NEW
   const indexRef = useRef(0);
   const timeoutRef = useRef(null);
 
@@ -20,13 +19,12 @@ export const MainSection = () => {
         timeoutRef.current = setTimeout(typeNext, 140);
       } else {
         setShowCursor(false);
-        setShowDescription(true); // Show description after typing
       }
     };
 
     typeNext();
 
-    return () => clearTimeout(timeoutRef.current);
+    return () => clearTimeout(timeoutRef.current); // Cleanup to prevent duplicate runs
   }, [fullName]);
 
   return (
@@ -42,19 +40,15 @@ export const MainSection = () => {
             {showCursor && <span className="blinking-cursor">|</span>}
           </h1>
 
-          {showDescription && (
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mt-4 opacity-0 animate-fade-in">
-              {description}
-            </p>
-          )}
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mt-4">
+            {description}
+          </p>
 
-          {showDescription && (
-            <div className="pt-4 opacity-0 animate-fade-in animate-fade-in-delay-1">
-              <a href="#projects" className="cosmic-button">
-                View my Work
-              </a>
-            </div>
-          )}
+          <div className="pt-4">
+            <a href="#projects" className="cosmic-button">
+              View my Work
+            </a>
+          </div>
         </div>
       </div>
 
