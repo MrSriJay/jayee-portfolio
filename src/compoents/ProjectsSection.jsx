@@ -161,54 +161,69 @@ export const ProjectsSections = () => {
             GitHub Projects
           </h3>
 
-          <Swiper
-            modules={[Navigation, Pagination, Autoplay]}
-            spaceBetween={30}
-            slidesPerView={1}
-            navigation
-            pagination={{ clickable: true }}
-            autoplay={{ delay: 4000, disableOnInteraction: false }}
-            breakpoints={{
-              640: { slidesPerView: 1 },
-              768: { slidesPerView: 2 },
-              1024: { slidesPerView: 3 },
-            }}
-            className="pb-10"
-          >
-            {repos.map((repo) => (
-              <SwiperSlide key={repo.id}>
-                <div className="bg-card p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 h-full flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2 text-primary">
-                      {repo.name}
-                    </h3>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      {repo.description || "No description available."}
-                    </p>
-                  </div>
-                  <div className="flex justify-between text-xs text-gray-500 mb-3">
-                    <span>{repo.language || "Unknown"}</span>
-                    <span>⭐ {repo.stargazers_count}</span>
-                  </div>
-                  <a
-                    href={repo.html_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm font-medium text-primary hover:underline mt-auto"
-                  >
-                    View on GitHub →
-                  </a>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          <div className="relative">
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay]}
+              spaceBetween={30}
+              slidesPerView={1}
+              navigation
+              pagination={{ 
+                clickable: true,
+                el: '.custom-pagination', // We'll control it manually
+              }}
+              autoplay={{ delay: 4000, disableOnInteraction: false }}
+              observer={true}
+              observeParents={true}
+              breakpoints={{
+                640: { slidesPerView: 1, spaceBetween: 20 },
+                768: { slidesPerView: 2, spaceBetween: 24 },
+                1024: { slidesPerView: 3, spaceBetween: 30 },
+              }}
+              className="pb-4" // Reduced since pagination is now outside
+            >
+              {repos.map((repo) => (
+                <SwiperSlide key={repo.id}>
+                  <div className="bg-card/90 backdrop-blur-sm p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 h-54 flex flex-col justify-between border border-border/50">
+                    <div className="space-y-3">
+                      <h3 className="text-xl font-semibold text-primary line-clamp-2 leading-tight">
+                        {repo.name}
+                      </h3>
+                      <p className="text-sm text-muted-foreground line-clamp-3">
+                        {repo.description || "No description available."}
+                      </p>
+                    </div>
 
+                    <div className="space-y-4">
+                      <div className="flex justify-between text-xs text-gray-400">
+                        <span className="font-medium">{repo.language || "Unknown"}</span>
+                        <span>⭐ {repo.stargazers_count}</span>
+                      </div>
+
+                      <a
+                        href={repo.html_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm font-medium text-primary hover:text-primary/80 flex items-center gap-1 transition-colors"
+                      >
+                        View on GitHub <ArrowRight size={14} />
+                      </a>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
+            {/* Custom Pagination - Now Outside the Swiper */}
+            <div className="custom-pagination mt-6 flex justify-center gap-2"></div>
+          </div>
+
+          {/* CTA Button - Clean spacing */}
           <a
-            className="cosmic-button w-fit flex items-center mx-auto gap-2"
+            className="cosmic-button inline-flex items-center gap-2 mt-10 px-6 py-3 text-lg font-medium transition-all hover:scale-105"
             target="_blank"
             href="https://github.com/MrSriJay"
           >
-            Check My Github <Github className="w-6 h-6" /> <ArrowRight size={16} />
+            Check My GitHub <Github className="w-6 h-6" /> <ArrowRight size={18} />
           </a>
         </div>
       </div>
