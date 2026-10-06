@@ -22,7 +22,7 @@ const formatDate = (value) => {
 
 const sortKey = (item) => (item.start.length === 4 ? `${item.start}-01` : item.start);
 
-const timeline = [
+export const timeline = [
   {
     kind: "work",
     title: "Senior Software Engineer — Backend & AI Systems",

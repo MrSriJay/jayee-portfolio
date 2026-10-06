@@ -7,6 +7,7 @@ import { SkillsSections } from "../compoents/SkillsSections";
 import { ProjectsSections } from "../compoents/ProjectsSection";
 import { ContactSection } from "../compoents/ConstactSection.jsx";
 import { EducationSection } from "../compoents/EducationSection.jsx";
+import { RecruiterChat } from "../compoents/RecruiterChat.jsx";
 
 export const Home = () => {
   useEffect(() => {
@@ -34,6 +35,7 @@ export const Home = () => {
     let touchLastY = 0;
     let windowDelta = 0;
     let startIndex = 0;
+    let askTouch = false;
 
     const nearestIndex = () => {
       const list = sections();
@@ -112,7 +114,15 @@ export const Home = () => {
 
     const detailOpen = () => document.querySelector(".tl-pop");
 
+    const inAsk = (event) => event.target instanceof Element && event.target.closest(".ask-panel");
+
     const onWheel = (event) => {
+      if (inAsk(event)) {
+        event.preventDefault();
+        const log = event.target instanceof Element ? event.target.closest(".ask-log") : null;
+        if (log) log.scrollTop += wheelDelta(event);
+        return;
+      }
       if (detailOpen()) {
         event.preventDefault();
         const card = event.target instanceof Element ? event.target.closest(".tl-card-body") : null;
@@ -143,6 +153,7 @@ export const Home = () => {
     };
 
     const onTouchStart = (event) => {
+      askTouch = event.target instanceof Element && !!event.target.closest(".ask-panel");
       if (event.touches.length !== 1) return;
       touchLastY = event.touches[0].clientY;
       windowDelta = 0;
@@ -150,6 +161,11 @@ export const Home = () => {
     };
 
     const onTouchMove = (event) => {
+      if (askTouch) {
+        const inLog = event.target instanceof Element && event.target.closest(".ask-log");
+        if (!inLog) event.preventDefault();
+        return;
+      }
       if (detailOpen()) {
         const inCard = event.target instanceof Element && event.target.closest(".tl-card-body");
         if (!inCard) event.preventDefault();
@@ -175,6 +191,10 @@ export const Home = () => {
     };
 
     const onTouchEnd = () => {
+      if (askTouch) {
+        askTouch = false;
+        return;
+      }
       if (detailOpen() || menuOpen()) return;
       const list = sections();
       if (!list.length || Math.abs(windowDelta) < 28) {
@@ -194,7 +214,7 @@ export const Home = () => {
 
     const onKey = (event) => {
       const el = document.activeElement;
-      if (detailOpen() || menuOpen()) return;
+      if (detailOpen() || menuOpen() || el?.closest(".ask-panel")) return;
       if (el?.closest("input, textarea, select, button, a") || el?.isContentEditable) return;
       const down = event.key === "ArrowDown" || event.key === "PageDown" || event.key === " ";
       const up = event.key === "ArrowUp" || event.key === "PageUp";
@@ -278,6 +298,7 @@ export const Home = () => {
         <EducationSection />
         <ContactSection />
       </main>
+      <RecruiterChat />
     </div>
   );
 };
