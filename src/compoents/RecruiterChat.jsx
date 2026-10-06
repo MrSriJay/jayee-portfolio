@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { Bot, Send, X } from "lucide-react";
 import { answerFromProfile } from "../lib/profileBrief";
 
-const starters = ["Current role", "Education", "How to reach him"];
+const starters = ["Current role", "Years of experience", "Stack", "Education", "Projects"];
 
 export const RecruiterChat = () => {
   const [open, setOpen] = useState(false);
+  const [pending, setPending] = useState(false);
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState([
     {
@@ -15,11 +16,14 @@ export const RecruiterChat = () => {
   ]);
   const logRef = useRef(null);
   const inputRef = useRef(null);
+  const waitRef = useRef(0);
 
   useEffect(() => {
     const log = logRef.current;
     if (log) log.scrollTop = log.scrollHeight;
-  }, [messages, open]);
+  }, [messages, open, pending]);
+
+  useEffect(() => () => window.clearTimeout(waitRef.current), []);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -33,13 +37,16 @@ export const RecruiterChat = () => {
 
   const send = (value) => {
     const text = value.trim();
-    if (!text) return;
-    setMessages((current) => [
-      ...current,
-      { role: "user", text },
-      { role: "assistant", text: answerFromProfile(text) },
-    ]);
+    if (!text || pending) return;
+    const reply = answerFromProfile(text);
     setDraft("");
+    setPending(true);
+    setMessages((current) => [...current, { role: "user", text }]);
+    window.clearTimeout(waitRef.current);
+    waitRef.current = window.setTimeout(() => {
+      setMessages((current) => [...current, { role: "assistant", text: reply }]);
+      setPending(false);
+    }, 900);
   };
 
   return (
@@ -59,6 +66,11 @@ export const RecruiterChat = () => {
                 {message.text}
               </p>
             ))}
+            {pending && (
+              <p className="ask-bot ask-wait" role="status">
+                thinking…
+              </p>
+            )}
           </div>
           {messages.length === 1 && (
             <div className="ask-starters">
@@ -82,8 +94,9 @@ export const RecruiterChat = () => {
               onChange={(event) => setDraft(event.target.value)}
               placeholder="ask about his experience"
               aria-label="Question about Jayanga"
+              disabled={pending}
             />
-            <button type="submit" aria-label="Send question" disabled={!draft.trim()}>
+            <button type="submit" aria-label="Send question" disabled={pending || !draft.trim()}>
               <Send className="h-3.5 w-3.5" strokeWidth={1.75} />
             </button>
           </form>
