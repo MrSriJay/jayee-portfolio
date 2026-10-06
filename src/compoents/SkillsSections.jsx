@@ -1,253 +1,410 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import {
+  Bot,
+  Boxes,
+  Braces,
+  Brain,
+  Cloud,
+  Code2,
+  Database,
+  Globe,
+  Inbox,
+  KeyRound,
+  LayoutGrid,
+  Radio,
+  Rocket,
+  Search,
+  Server,
+  Workflow,
+} from "lucide-react";
+import {
+  SiAmazon,
+  SiAmazonecs,
+  SiAmazons3,
+  SiAmazonsqs,
+  SiAmazonwebservices,
+  SiAnthropic,
+  SiApachekafka,
+  SiApachemaven,
+  SiDjango,
+  SiDocker,
+  SiDotnet,
+  SiExpress,
+  SiFastapi,
+  SiGit,
+  SiGithub,
+  SiGithubactions,
+  SiGitlab,
+  SiGooglebigquery,
+  SiGooglecloud,
+  SiGradle,
+  SiGrafana,
+  SiJavascript,
+  SiJenkins,
+  SiJunit5,
+  SiKeras,
+  SiKibana,
+  SiKubernetes,
+  SiLaravel,
+  SiLinux,
+  SiMongodb,
+  SiMysql,
+  SiNodedotjs,
+  SiNumpy,
+  SiOllama,
+  SiOpenai,
+  SiOpencv,
+  SiOpenjdk,
+  SiOracle,
+  SiPandas,
+  SiPhp,
+  SiPostgresql,
+  SiPostman,
+  SiPytorch,
+  SiPython,
+  SiRabbitmq,
+  SiRedis,
+  SiScikitlearn,
+  SiSpring,
+  SiSpringboot,
+  SiSpringsecurity,
+  SiSupabase,
+  SiTensorflow,
+  SiTypescript,
+} from "react-icons/si";
 
-const skills = [
-    // Languages
-    { name: "Python", category: "Languages", level: 95 },
-    { name: "Java", category: "Languages", level: 95 },
-    { name: "SQL", category: "Languages", level: 90 },
-    { name: "JavaScript", category: "Languages", level: 80 },
-    { name: "TypeScript", category: "Languages", level: 75 },
-    { name: "PHP", category: "Languages", level: 75 },
-    { name: "C#", category: "Languages", level: 70 },
-
-    // Frameworks
-    { name: "FastAPI", category: "Frameworks", level: 90 },
-    { name: "Spring Boot", category: "Frameworks", level: 95 },
-    { name: "Spring MVC", category: "Frameworks", level: 90 },
-    { name: "Spring Data JPA", category: "Frameworks", level: 85 },
-    { name: "Spring Security", category: "Frameworks", level: 85 },
-    { name: "Spring Cloud", category: "Frameworks", level: 80 },
-    { name: "Django", category: "Frameworks", level: 75 },
-    { name: "Angular", category: "Frameworks", level: 75 },
-    { name: "React", category: "Frameworks", level: 80 },
-    { name: "Node.js", category: "Frameworks", level: 70 },
-    { name: "Express", category: "Frameworks", level: 70 },
-    { name: "Laravel", category: "Frameworks", level: 70 },
-    { name: "ASP.NET", category: "Frameworks", level: 65 },
-    { name: "ASP.NET Core", category: "Frameworks", level: 70 },
-    { name: "Thymeleaf", category: "Frameworks", level: 75 },
-
-    // Web Technologies
-    { name: "HTML", category: "Web Technologies", level: 90 },
-    { name: "CSS", category: "Web Technologies", level: 85 },
-    { name: "JavaScript", category: "Web Technologies", level: 80 },
-    { name: "TypeScript", category: "Web Technologies", level: 75 },
-    { name: "React", category: "Web Technologies", level: 80 },
-
-    // APIs
-    { name: "REST APIs", category: "APIs", level: 95 },
-    { name: "Microservices", category: "APIs", level: 90 },
-    { name: "WebSockets", category: "APIs", level: 75 },
-    { name: "Event-Driven Architecture", category: "APIs", level: 85 },
-    { name: "Meta Cloud APIs", category: "APIs", level: 75 },
-    { name: "SOAP", category: "APIs", level: 50 },
-
-    // Databases
-    { name: "PostgreSQL", category: "Databases", level: 90 },
-    { name: "Supabase", category: "Databases", level: 75 },
-    { name: "MongoDB", category: "Databases", level: 80 },
-    { name: "Redis", category: "Databases", level: 80 },
-    { name: "BigQuery", category: "Databases", level: 80 },
-    { name: "MySQL", category: "Databases", level: 90 },
-    { name: "Oracle SQL", category: "Databases", level: 85 },
-    { name: "Microsoft SQL Server", category: "Databases", level: 70 },
-    { name: "SQLite", category: "Databases", level: 65 },
-    { name: "Firebase", category: "Databases", level: 60 },
-
-    // Version Control
-    { name: "Git", category: "Version Control", level: 95 },
-    { name: "GitHub", category: "Version Control", level: 90 },
-    { name: "GitLab", category: "Version Control", level: 90 },
-    { name: "Forgejo", category: "Version Control", level: 60 },
-
-    // Build Tools
-    { name: "Maven", category: "Build Tools", level: 90 },
-    { name: "Gradle", category: "Build Tools", level: 75 },
-
-    // DevOps & Tools
-    { name: "Docker", category: "DevOps & Tools", level: 90 },
-    { name: "Kubernetes", category: "DevOps & Tools", level: 80 },
-    { name: "GitHub Actions", category: "DevOps & Tools", level: 85 },
-    { name: "CI/CD", category: "DevOps & Tools", level: 90 },
-    { name: "Jenkins", category: "DevOps & Tools", level: 85 },
-    { name: "Grafana", category: "DevOps & Tools", level: 70 },
-    { name: "Kibana", category: "DevOps & Tools", level: 70 },
-    { name: "Postman", category: "DevOps & Tools", level: 90 },
-    { name: "Swagger", category: "DevOps & Tools", level: 70 },
-    { name: "Apache Kafka", category: "DevOps & Tools", level: 75 },
-    { name: "RabbitMQ", category: "DevOps & Tools", level: 75 },
-    { name: "ActiveMQ", category: "DevOps & Tools", level: 70 },
-    { name: "AWS SQS", category: "DevOps & Tools", level: 80 },
-    { name: "ALDON", category: "DevOps & Tools", level: 60 },
-
-    // Servers
-    { name: "Linux", category: "Servers", level: 80 },
-    { name: "Apache Tomcat", category: "Servers", level: 85 },
-    { name: "Windows", category: "Servers", level: 75 },
-
-    // Others
-    { name: "JUnit", category: "Others", level: 85 },
-    { name: "Mockito", category: "Others", level: 70 },
-
-    // Cloud
-    { name: "AWS", category: "Cloud", level: 90 },
-    { name: "Elastic Beanstalk", category: "Cloud", level: 80 },
-    { name: "Amazon ECS", category: "Cloud", level: 75 },
-    { name: "Amazon S3", category: "Cloud", level: 85 },
-    { name: "CloudFront", category: "Cloud", level: 70 },
-    { name: "Secrets Manager", category: "Cloud", level: 75 },
-    { name: "Google Cloud", category: "Cloud", level: 80 },
-
-    // AI Development
-    { name: "OpenAI APIs", category: "AI Development", level: 85 },
-    { name: "Anthropic", category: "AI Development", level: 75 },
-    { name: "Ollama", category: "AI Development", level: 70 },
-    { name: "MedGemma", category: "AI Development", level: 70 },
-    { name: "LLM Integration", category: "AI Development", level: 85 },
-    { name: "TensorFlow", category: "AI Development", level: 70 },
-    { name: "PyTorch", category: "AI Development", level: 70 },
-    { name: "Keras", category: "AI Development", level: 70 },
-    { name: "OpenCV", category: "AI Development", level: 70 },
-    { name: "scikit-learn", category: "AI Development", level: 75 },
-    { name: "NumPy", category: "AI Development", level: 90 },
-    { name: "Pandas", category: "AI Development", level: 85 },
-    { name: "Matplotlib", category: "AI Development", level: 75 },
-    { name: "Qdrant", category: "AI Development", level: 60 },
-    { name: "Machine Learning", category: "AI Development", level: 80 },
-    { name: "Deep Learning", category: "AI Development", level: 80 },
-
-    // Project Management Tools
-    { name: "JIRA", category: "Project Management Tools", level: 85 },
-    { name: "Agile", category: "Project Management Tools", level: 90 },
-    { name: "Scrum", category: "Project Management Tools", level: 90 },
-
-    // Soft Skills
-    { name: "Team Work", category: "Soft Skills", level: 95 },
-    { name: "Customer Engagement", category: "Soft Skills", level: 90 },
-    { name: "Critical Thinking", category: "Soft Skills", level: 90 },
-    { name: "Problem Solving", category: "Soft Skills", level: 90 },
-    { name: "Time Management", category: "Soft Skills", level: 90 },
-    { name: "Quick Learning", category: "Soft Skills", level: 95 },
-    { name: "Good Communication", category: "Soft Skills", level: 90 },
-    { name: "Adaptability", category: "Soft Skills", level: 90 },
-    { name: "SLA Management", category: "Soft Skills", level: 80 },
-    { name: "Knowledge Transfer", category: "Soft Skills", level: 85 },
+const groups = [
+  {
+    id: "languages",
+    label: "Languages",
+    note: "Languages I write production code in.",
+    icon: Code2,
+    items: ["Python", "Java", "SQL", "JavaScript", "TypeScript", "PHP", "C#"],
+  },
+  {
+    id: "backend",
+    label: "Backend",
+    note: "Frameworks and service patterns for APIs and microservices.",
+    icon: Server,
+    items: [
+      "FastAPI",
+      "Django",
+      "Spring Boot",
+      "Spring Security",
+      "Spring Cloud",
+      "Node.js",
+      "Express",
+      "Laravel",
+      "ASP.NET Core",
+      "REST APIs",
+      "Microservices",
+      "WebSockets",
+    ],
+  },
+  {
+    id: "ai",
+    label: "AI",
+    note: "Model APIs, training libraries, and retrieval.",
+    icon: Brain,
+    items: [
+      "OpenAI APIs",
+      "Anthropic",
+      "Ollama",
+      "MedGemma",
+      "LLM integration",
+      "TensorFlow",
+      "PyTorch",
+      "Keras",
+      "OpenCV",
+      "scikit-learn",
+      "NumPy",
+      "Pandas",
+      "Qdrant",
+    ],
+  },
+  {
+    id: "data",
+    label: "Data",
+    note: "Databases, warehouses, and message queues.",
+    icon: Database,
+    items: [
+      "PostgreSQL",
+      "MongoDB",
+      "Redis",
+      "BigQuery",
+      "MySQL",
+      "Oracle SQL",
+      "SQL Server",
+      "Supabase",
+      "Kafka",
+      "RabbitMQ",
+      "ActiveMQ",
+      "SQS",
+    ],
+  },
+  {
+    id: "cloud",
+    label: "Cloud",
+    note: "Cloud platforms and container tooling.",
+    icon: Cloud,
+    items: [
+      "AWS",
+      "Elastic Beanstalk",
+      "ECS",
+      "S3",
+      "CloudFront",
+      "Secrets Manager",
+      "Google Cloud",
+      "Docker",
+      "Kubernetes",
+    ],
+  },
+  {
+    id: "delivery",
+    label: "Delivery",
+    note: "CI, observability, and the tools around a release.",
+    icon: Rocket,
+    items: [
+      "GitHub Actions",
+      "Jenkins",
+      "CI/CD",
+      "Grafana",
+      "Kibana",
+      "Git",
+      "GitHub",
+      "GitLab",
+      "Maven",
+      "Gradle",
+      "JUnit",
+      "Postman",
+      "Linux",
+    ],
+  },
 ];
 
+const toolIcons = {
+  Python: SiPython,
+  Java: SiOpenjdk,
+  SQL: Database,
+  JavaScript: SiJavascript,
+  TypeScript: SiTypescript,
+  PHP: SiPhp,
+  "C#": SiDotnet,
+  FastAPI: SiFastapi,
+  Django: SiDjango,
+  "Spring Boot": SiSpringboot,
+  "Spring Security": SiSpringsecurity,
+  "Spring Cloud": SiSpring,
+  "Node.js": SiNodedotjs,
+  Express: SiExpress,
+  Laravel: SiLaravel,
+  "ASP.NET Core": SiDotnet,
+  "REST APIs": Braces,
+  Microservices: Boxes,
+  WebSockets: Radio,
+  "OpenAI APIs": SiOpenai,
+  Anthropic: SiAnthropic,
+  Ollama: SiOllama,
+  MedGemma: Brain,
+  "LLM integration": Bot,
+  TensorFlow: SiTensorflow,
+  PyTorch: SiPytorch,
+  Keras: SiKeras,
+  OpenCV: SiOpencv,
+  "scikit-learn": SiScikitlearn,
+  NumPy: SiNumpy,
+  Pandas: SiPandas,
+  Qdrant: Search,
+  PostgreSQL: SiPostgresql,
+  MongoDB: SiMongodb,
+  Redis: SiRedis,
+  BigQuery: SiGooglebigquery,
+  MySQL: SiMysql,
+  "Oracle SQL": SiOracle,
+  "SQL Server": Database,
+  Supabase: SiSupabase,
+  Kafka: SiApachekafka,
+  RabbitMQ: SiRabbitmq,
+  ActiveMQ: Inbox,
+  SQS: SiAmazonsqs,
+  AWS: SiAmazonwebservices,
+  "Elastic Beanstalk": SiAmazon,
+  ECS: SiAmazonecs,
+  S3: SiAmazons3,
+  CloudFront: Globe,
+  "Secrets Manager": KeyRound,
+  "Google Cloud": SiGooglecloud,
+  Docker: SiDocker,
+  Kubernetes: SiKubernetes,
+  "GitHub Actions": SiGithubactions,
+  Jenkins: SiJenkins,
+  "CI/CD": Workflow,
+  Grafana: SiGrafana,
+  Kibana: SiKibana,
+  Git: SiGit,
+  GitHub: SiGithub,
+  GitLab: SiGitlab,
+  Maven: SiApachemaven,
+  Gradle: SiGradle,
+  JUnit: SiJunit5,
+  Postman: SiPostman,
+  Linux: SiLinux,
+};
 
-const categories = [
-  "All",
-  "Languages",
-  "Frameworks",
-  "Web Technologies",
-  "APIs",
-  "Databases",
-  "Version Control",
-  "Build Tools",
-  "DevOps & Tools",
-  "Servers",
-  "Others",
-  "Cloud",
-  "AI Development",
-  "Project Management Tools",
-  "Soft Skills",
-];
-
-const skillsPerPage = 9;
+const Chip = ({ name, index }) => {
+  const Icon = toolIcons[name];
+  return (
+    <li
+      className="stack-chip inline-flex items-center gap-1.5 rounded-md border border-border bg-background/80 px-2 py-1 text-[12px] text-foreground transition-colors duration-150"
+      style={{ "--j": index }}
+    >
+      {Icon && <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />}
+      {name}
+    </li>
+  );
+};
 
 export const SkillsSections = () => {
-  const [activeCateogry, setActiveCateogry] = useState("all");
-  const [currentPage, setCurrentPage] = useState(1);
+  const sectionRef = useRef(null);
+  const [shown, setShown] = useState(false);
+  const [active, setActive] = useState("all");
+  const selected = groups.find((group) => group.id === active);
 
-  const filteredSkills = skills.filter(
-    (skill) =>
-      activeCateogry === "all" || skill.category.toLowerCase() === activeCateogry
-  );
-
-  const totalPages = Math.ceil(filteredSkills.length / skillsPerPage);
-  const startIndex = (currentPage - 1) * skillsPerPage;
-  const currentSkills = filteredSkills.slice(
-    startIndex,
-    startIndex + skillsPerPage
-  );
-
-  const handlePrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
-  const handleNextPage = () =>
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-
-  const handleCategoryChange = (category) => {
-    setActiveCateogry(category.toLowerCase());
-    setCurrentPage(1);
-  };
+  useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      setShown(true);
+      return undefined;
+    }
+    const node = sectionRef.current;
+    if (!node) return undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setShown(true);
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section className="py-24 px-4 relative bg-secondary/30" id="skills">
-      <div className="container mx-auto max-w-5xl">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
-          My <span className="text-primary"> Skills</span>
-        </h2>
-
-        {/* Category Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {categories.map((category, key) => (
-            <button
-              key={key}
-              className={`px-4 py-2 rounded-full text-sm border ${
-                activeCateogry === category.toLowerCase()
-                  ? "bg-primary text-white border-primary"
-                  : "border-foreground/50 text-foreground/80 hover:bg-primary/10"
-              } transition-colors duration-300`}
-              onClick={() => handleCategoryChange(category)}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        {/* Skills Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-          {currentSkills.map((skill, key) => (
-            <div
-              key={key}
-              className="bg-card p-6 rounded-lg shadow-xs card-hover"
-            >
-              <div className="text-left mb-4">
-                <h3 className="font-semibold text-lg">{skill.name}</h3>
-              </div>
-              <div className="w-full bg-secondary/50 h-2 rounded-full overflow-hidden">
-                <div
-                  className="bg-primary h-2 rounded-full origin-left animate-[grow_1.5s_ease-out]"
-                  style={{ width: skill.level + "%" }}
-                />
-              </div>
-              <div className="text-right mt-1">
-                <span className="text-sm text-muted-foreground">
-                  {skill.level}%
-                </span>
-              </div>
+    <section id="skills" className="screen" ref={sectionRef}>
+      <div className="container reveal flex min-h-0 w-full flex-1 flex-col">
+        <h2 className="section-title">Stack</h2>
+        <div className="screen-body">
+          <div className="ide-panel">
+            <div className="ide-bar justify-between">
+              <span className="ide-dots" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </span>
+              <span className="min-w-0 truncate">~/portfolio/package.json</span>
+              <span className="ml-auto inline-flex items-center gap-2 text-muted-foreground">
+                <span className="status-ok" aria-hidden="true" />
+                resolved
+              </span>
             </div>
-          ))}
-        </div>
 
-        {/* Pagination Dots */}
-        {totalPages > 1 && (
-  <div className="flex justify-center items-center gap-2 mt-6">
-    {Array.from({ length: totalPages }).map((_, index) => {
-      const pageNumber = index + 1;
-      return (
-        <button
-          key={pageNumber}
-          onClick={() => setCurrentPage(pageNumber)}
-          className={`w-3 h-3 rounded-full transition-colors duration-300 ${
-            currentPage === pageNumber
-              ? "bg-primary"
-              : "bg-white dark:bg-gray-500 hover:dark:bg-primary/70 hover:bg-primary/70"
-          }`}
-        ></button>
-      );
-    })}
-  </div>
-)}
+            <div
+              className="flex gap-1 overflow-x-auto border-b border-border px-3 py-2.5"
+              role="tablist"
+              aria-label="Skill groups"
+            >
+              <button
+                type="button"
+                role="tab"
+                aria-selected={active === "all"}
+                onClick={() => setActive("all")}
+                className={
+                  active === "all"
+                    ? "inline-flex shrink-0 items-center gap-1.5 rounded-md bg-primary/12 px-2.5 py-1 text-[12px] text-primary"
+                    : "inline-flex shrink-0 items-center gap-1.5 rounded-md px-2.5 py-1 text-[12px] text-muted-foreground transition-colors duration-150 hover:bg-secondary hover:text-foreground"
+                }
+              >
+                <LayoutGrid className="h-3.5 w-3.5" aria-hidden="true" />
+                All
+              </button>
+              {groups.map((group) => {
+                const Icon = group.icon;
+                const on = active === group.id;
+                return (
+                  <button
+                    key={group.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={on}
+                    onClick={() => setActive(group.id)}
+                    className={
+                      on
+                        ? `stack-tab is-on tone-${group.id} inline-flex shrink-0 items-center gap-1.5 rounded-md px-2.5 py-1 text-[12px]`
+                        : `stack-tab tone-${group.id} inline-flex shrink-0 items-center gap-1.5 rounded-md px-2.5 py-1 text-[12px] text-muted-foreground transition-colors duration-150 hover:bg-secondary hover:text-foreground`
+                    }
+                  >
+                    <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+                    {group.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {selected ? (
+              <div key={selected.id} className={shown ? `tone tone-${selected.id} stack-detail is-shown px-4 py-5 sm:px-6` : `tone tone-${selected.id} stack-detail px-4 py-5 sm:px-6`}>
+                <div className="flex items-center justify-between gap-4">
+                  <h3 className="flex items-center gap-2 text-base text-foreground">
+                    <span className="stack-mark inline-flex h-8 w-8 items-center justify-center rounded-md border">
+                      <selected.icon className="h-4 w-4" aria-hidden="true" />
+                    </span>
+                    {selected.label}
+                  </h3>
+                  <p className="text-[11px] text-muted-foreground">{selected.items.length} tools</p>
+                </div>
+                <p className="copy mt-2 max-w-xl text-sm text-muted-foreground">{selected.note}</p>
+                <ul className="mt-4 flex flex-wrap gap-2">
+                  {selected.items.map((item, index) => (
+                    <Chip key={item} name={item} index={index} />
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <div
+                key="all"
+                className={
+                  shown
+                    ? "stack-grid is-shown grid gap-3 p-3 sm:grid-cols-2 sm:p-4 lg:grid-cols-3"
+                    : "stack-grid grid gap-3 p-3 sm:grid-cols-2 sm:p-4 lg:grid-cols-3"
+                }
+              >
+                {groups.map((group, index) => {
+                  const Icon = group.icon;
+                  return (
+                    <article
+                      key={group.id}
+                      className={`tone tone-${group.id} stack-card glass-card rounded-lg border p-3.5`}
+                      style={{ "--i": index }}
+                    >
+                      <div className="mb-3 flex items-center justify-between gap-3">
+                        <h3 className="flex items-center gap-2 text-[13px] text-foreground">
+                          <span className="stack-mark inline-flex h-7 w-7 items-center justify-center rounded-md border">
+                            <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+                          </span>
+                          {group.label}
+                        </h3>
+                        <span className="text-[11px] text-muted-foreground">{group.items.length}</span>
+                      </div>
+                      <ul className="flex flex-wrap gap-1.5">
+                        {group.items.map((item, itemIndex) => (
+                          <Chip key={item} name={item} index={itemIndex} />
+                        ))}
+                      </ul>
+                    </article>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </section>
   );

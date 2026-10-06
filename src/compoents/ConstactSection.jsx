@@ -1,200 +1,157 @@
-import React, { useState } from "react";
-import {
-  Mail,
-  Map,
-  Phone,
-  BookOpenText,
-} from "lucide-react";
-import { motion } from "framer-motion";
-import { FaLinkedin, FaTwitter, FaInstagram, FaResearchgate } from "react-icons/fa";
-import { cn } from "../lib/Utils";
+import { useState } from "react";
+import { Github, Instagram, Linkedin, Mail, MapPin, Phone, Smartphone } from "lucide-react";
+import { Footer } from "./Footer";
+
+const ResearchGateIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true" {...props}>
+    <circle cx="12" cy="12" r="8.25" />
+    <path d="M9.2 16.2V7.8h3.15a2.55 2.55 0 0 1 0 5.1H9.2" />
+  </svg>
+);
+
+const details = [
+  {
+    label: "Email",
+    value: "jayanga.sl@gmail.com",
+    href: "mailto:jayanga.sl@gmail.com",
+    icon: Mail,
+  },
+  {
+    label: "Mobile",
+    value: "+94 766 628 878",
+    href: "tel:+94766628878",
+    icon: Smartphone,
+  },
+  {
+    label: "Phone",
+    value: "+94 112 412 427",
+    href: "tel:+94112412427",
+    icon: Phone,
+  },
+  {
+    label: "Location",
+    value: "Colombo, Sri Lanka",
+    icon: MapPin,
+  },
+];
+
+const socials = [
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/jayanga-palihena-33a69716a/",
+    icon: Linkedin,
+  },
+  { name: "Instagram", href: "https://www.instagram.com/jayanga.palihena/", icon: Instagram },
+  {
+    name: "ResearchGate",
+    href: "https://www.researchgate.net/profile/Jayanga-Palihena",
+    icon: ResearchGateIcon,
+  },
+  { name: "GitHub", href: "https://github.com/MrSriJay", icon: Github },
+];
 
 export const ContactSection = () => {
-  const [profile] = useState({
-    name: "Jayanga Palihena",
-    bio: "Senior Software Engineer · Backend & AI",
-    photoUrl: "/1619099561066.png",
-  });
+  const [copied, setCopied] = useState(false);
 
-  const socialLinks = [
-    {
-      name: "LinkedIn",
-      description: "View full profile & recommendations",
-      icon: <FaLinkedin className="text-[#0A66C2]" size={28} />,
-      link: "https://www.linkedin.com/in/jayanga-palihena-33a69716a/",
-      bg: "hover:bg-[#0A66C210]",
-    },
-    {
-      name: "X (Twitter)",
-      description: "Short updates & threads",
-      icon: <FaTwitter className="text-[#1DA1F2]" size={28} />,
-      link: "https://x.com/Jayanga_Sri",
-      bg: "hover:bg-[#1DA1F210]",
-    },
-    {
-      name: "Instagram",
-      description: "Photos & life moments",
-      icon: <FaInstagram className="text-[#E4405F]" size={28} />,
-      link: "https://www.instagram.com/jayanga.palihena/",
-      bg: "hover:bg-[#E4405F10]",
-    },
-    {
-      name: "ResearchGate",
-      description: "Papers & research contributions",
-      icon: <FaResearchgate className="text-[#00CCBB]" size={28} />,
-      link: "https://www.researchgate.net/profile/Jayanga-Palihena",
-      bg: "hover:bg-[#00CCBB10]",
-    },
-  ];
+  const copyEmail = async () => {
+    const address = "jayanga.sl@gmail.com";
+    let ok = false;
+    try {
+      await navigator.clipboard.writeText(address);
+      ok = true;
+    } catch {
+      const field = document.createElement("textarea");
+      field.value = address;
+      field.setAttribute("readonly", "");
+      field.style.position = "fixed";
+      field.style.left = "-9999px";
+      document.body.append(field);
+      field.select();
+      ok = document.execCommand("copy");
+      field.remove();
+    }
+    if (!ok) return;
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1200);
+  };
 
   return (
-    <section id="contact" className="py-24 px-4 relative bg-secondary/30">
-      <div className="container mx-auto max-w-5xl">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
-          Get In <span className="text-primary">Touch</span>
-        </h2>
-
-        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          I’m a Senior Software Engineer working on AI-driven backend systems
-          for finance and healthcare. If you’re hiring for backend, cloud, or
-          applied AI roles, feel free to reach out.
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-          {/* LEFT SIDE: Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="space-y-8"
-          >
-            {/* Profile */}
-            <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-              {profile.photoUrl ? (
-                <img
-                  src={profile.photoUrl}
-                  alt={profile.name}
-                  className="w-28 h-28 rounded-full object-cover shadow-md"
-                />
-              ) : (
-                <div className="w-28 h-28 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl font-semibold">
-                  J
-                </div>
-              )}
-              <div className="text-center md:text-left">
-                <h3 className="text-2xl font-semibold">{profile.name}</h3>
-                <p className="text-muted-foreground">{profile.bio}</p>
-              </div>
+    <section id="contact" className="screen">
+      <div className="container reveal flex min-h-0 w-full flex-1 flex-col">
+        <h2 className="section-title">Contact</h2>
+        <div className="screen-body">
+        <div className="ide-panel">
+          <div className="ide-bar">
+            <span className="ide-dots" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
+            <span>~/portfolio/contact.sh</span>
+          </div>
+          <div className="grid gap-0 lg:grid-cols-12">
+            <div className="border-b border-border px-4 py-6 sm:px-6 lg:col-span-5 lg:border-r lg:border-b-0">
+              <p className="text-[12px]">
+                <span className="prompt-user">jayanga</span>
+                <span className="prompt-path">@portfolio:~$</span> ./contact
+              </p>
+              <p className="copy mt-4 text-sm leading-relaxed text-muted-foreground">
+                I work on AI-driven backend systems for finance and healthcare. For backend, cloud,
+                or applied AI roles, write directly.
+              </p>
             </div>
-
-            {/* Contact Info */}
-            <div className="space-y-6">
-              {[
-                {
-                  icon: Mail,
-                  title: "Email",
-                  content: (
-                    <a
-                      href="mailto:jayanga.sl@gmail.com"
-                      className="text-muted-foreground hover:text-primary transition-colors"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      jayanga.sl@gmail.com
-                    </a>
-                  ),
-                },
-                {
-                  icon: Phone,
-                  title: "Phone",
-                  content: (
-                    <div className="text-muted-foreground">
-                      <a
-                        href="tel:+94766628878"
-                        className="hover:text-primary transition-colors"
-                      >
-                        +94 766 628 878
-                      </a>
-                      <span className="mx-2">|</span>
-                      <a
-                        href="tel:+94112412427"
-                        className="hover:text-primary transition-colors"
-                      >
-                        +94 112 412 427
-                      </a>
+            <div className="px-4 py-2 sm:px-6 lg:col-span-7">
+              <dl>
+                {details.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <div key={item.label} className="grid grid-cols-[1.25rem_5.5rem_1fr] items-center gap-3 border-b border-border py-3 text-[12px] last:border-b-0">
+                      <Icon className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
+                      <dt className="text-muted-foreground">{item.label.toLowerCase()}</dt>
+                      <dd className="flex flex-wrap items-center gap-2">
+                        {item.href ? (
+                          <a href={item.href} className="text-primary hover:underline">
+                            {item.value}
+                          </a>
+                        ) : (
+                          item.value
+                        )}
+                        {item.label === "Email" && (
+                          <button
+                            type="button"
+                            onClick={copyEmail}
+                            className="btn-cmd-quiet px-2 py-1"
+                          >
+                            {copied ? "copied" : "copy"}
+                          </button>
+                        )}
+                      </dd>
                     </div>
-                  ),
-                },
-                {
-                  icon: Map,
-                  title: "Location",
-                  content: (
-                    <span className="text-muted-foreground">
-                      Colombo, Sri Lanka
-                    </span>
-                  ),
-                },
-              ].map(({ icon: Icon, title, content }, i) => (
-                <motion.div
-                  key={i}
-                  whileHover={{ scale: 1.02 }}
-                  className="flex items-start space-x-4 hover:bg-primary/5 p-3 rounded-xl transition-all"
-                >
-                  <div className="p-3 rounded-full bg-primary/10">
-                    <Icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <div className="w-100">
-                    <h4 className="font-medium">{title}</h4>
-                    {content}
-                  </div>
-                </motion.div>
-              ))}
+                  );
+                })}
+              </dl>
             </div>
-          </motion.div>
-
-          {/* RIGHT SIDE: Social Cards */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="space-y-6"
-          >
-            <h3 className="text-2xl font-semibold mb-4 text-center md:text-left">
-              <span className="text-primary">Connect</span> With Me
-            </h3>
-
-            {socialLinks.map(({ name, description, icon, link, bg }, idx) => (
-              <motion.a
-                key={idx}
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.97 }}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className={cn(
-                  "flex items-center gap-4 bg-card p-4 rounded-lg border border-transparent shadow-sm transition-all duration-300",
-                  "hover:shadow-lg hover:-translate-y-1",
-                  bg
-                )}
-              >
-                <motion.div
-                  whileHover={{ rotate: 5, scale: 1.15 }}
-                  className="p-3 rounded-full bg-background transition-all"
+          </div>
+          <div className="flex flex-wrap gap-2 border-t border-border px-4 py-4 sm:px-6">
+            {socials.map((item) => {
+              const Icon = item.icon;
+              return (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-link"
+                  aria-label={item.name}
                 >
-                  {icon}
-                </motion.div>
-                <div className="w-100">
-                  <div className="font-medium transition-colors">{name}</div>
-                  <div className="text-sm text-muted-foreground transition-colors">
-                    {description}
-                  </div>
-                </div>
-              </motion.a>
-            ))}
-          </motion.div>
+                  <Icon className="h-4 w-4" />
+                  {item.name.toLowerCase()}
+                </a>
+              );
+            })}
+          </div>
+        </div>
+        <Footer />
         </div>
       </div>
     </section>
