@@ -6,6 +6,7 @@ import esoftLogo from "../assets/timeline_logos/esoft-logo.png";
 import plyLogo from "../assets/timeline_logos/ply-logo.png";
 import cdrdLogo from "../assets/timeline_logos/cdrdt-logo.png";
 import freelancerLogo from "../assets/timeline_logos/freelancer-logo.png";
+import arenbergLogo from "../assets/timeline_logos/arenberg-logo.png";
 // Education data
 const educationData = [
   {
@@ -36,9 +37,17 @@ const educationData = [
 
 // Work data
 const workData = [
+  {
+    type: "work",
+    title: "Senior Software Engineer – Backend & AI Systems",
+    company: "Arenberg AG",
+    start: "2026-01",
+    end: "Present",
+    logo: arenbergLogo,
+  },
    {
     type: "work",
-    title: "Research Assistant in AI",
+    title: "Research Analyst in AI",
     company: "Nanjing University of Information Science and Technology, China",
     start: "2025-01",
     end: "2025-07",
@@ -65,7 +74,7 @@ const workData = [
     title: "Software Engineer | Research Assistant",
     company: "Centre for Defence Research & Development, Ministry of Defence - Sri Lanka",
     start: "2021-04",
-    end: "2021-07",
+    end: "2021-08",
     logo: cdrdLogo, 
   },
   {

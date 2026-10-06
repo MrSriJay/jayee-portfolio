@@ -18,18 +18,17 @@ const projects = [
   },
   {
     id: 2,
-    title: "RESTful API",
+    title: "AI-Powered Customer Service Chatbot",
     description:
-      "Developed a RESTful API using ASP.NET Core and SQL to support both web and mobile client applications as part of the final year Bachelor's project. The web client was built with ASP.NET MVC and C#, while the mobile client was developed using Android Studio with Java. Utilized technologies such as ASP.NET Core, SQL, Java, Bootstrap, Node.js, and C# to deliver a multi-platform solution.",
-    image: "project2",
+      "Built an AI customer service chatbot with OpenAI models, Python, and FastAPI. It handles customer queries through Meta’s WhatsApp Cloud API and Instagram Messaging API, uses webhooks to route incoming messages, and stores conversations in Supabase PostgreSQL. The service is containerized with Docker and prepared for cloud deployment.",
+    image: "project-chatbot",
     skills: [
-      "ASP.NET Core",
-      "SQL",
-      "Java",
-      "C#",
-      "Bootstrap",
-      "Node.js",
-      "Android Studio",
+      "Python",
+      "FastAPI",
+      "OpenAI",
+      "WhatsApp API",
+      "PostgreSQL",
+      "Docker",
     ],
   },
   {
@@ -96,7 +95,7 @@ export const ProjectsSections = () => {
         </h2>
 
         <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          Here are some of the key projects I’ve developed throughout my professional career.
+          A few of the products and research projects from my recent work, from sustainability tools and AI chatbots to computer vision.
         </p>
 
         {/* --- Project Cards --- */}

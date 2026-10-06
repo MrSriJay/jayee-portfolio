@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 export const MainSection = () => {
   const fullName = "Jayanga Palihena"; // Correct spelling
   const description =
-    "Skilled Software Engineer with 3+ years of experience in full-stack development, specializing in robust architecture, clean code, and user-centered web and application design using Python, Java, Java Spring, and PHP.";
+    "Senior Software Engineer with 5+ years of experience building scalable backends, cloud-native services, and AI-powered systems. I work with Python, FastAPI, Java, and AWS, currently at Arenberg AG.";
 
   const [typedName, setTypedName] = useState("");
   const [showCursor, setShowCursor] = useState(true);

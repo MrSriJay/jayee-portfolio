@@ -12,7 +12,7 @@ import { cn } from "../lib/Utils";
 export const ContactSection = () => {
   const [profile] = useState({
     name: "Jayanga Palihena",
-    bio: "Software Engineer & AI Enthusiast",
+    bio: "Senior Software Engineer · Backend & AI",
     photoUrl: "/1619099561066.png",
   });
 
@@ -55,10 +55,9 @@ export const ContactSection = () => {
         </h2>
 
         <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          I’m always open to exciting career opportunities in Artificial
-          Intelligence and Software Engineering. If you’re a recruiter or hiring
-          manager looking for a passionate researcher and developer with
-          hands-on experience, feel free to reach out!
+          I’m a Senior Software Engineer working on AI-driven backend systems
+          for finance and healthcare. If you’re hiring for backend, cloud, or
+          applied AI roles, feel free to reach out.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
@@ -114,7 +113,7 @@ export const ContactSection = () => {
                         href="tel:+94766628878"
                         className="hover:text-primary transition-colors"
                       >
-                        +94 766 662 8878
+                        +94 766 628 878
                       </a>
                       <span className="mx-2">|</span>
                       <a

@@ -11,12 +11,12 @@ export const AboutMeSection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center ">
           <div className="space-y-6">
-            <h3 className="text-2xl text-bold">Passionate Software Engineer</h3>
+            <h3 className="text-2xl text-bold">Senior Software Engineer</h3>
             <p className="text-muted-foreground">
-              With over four years of experience in software engineering, including my role as a Senior Software Engineer at Axiata Digital Labs Sri Lanka, I have contributed to the development and maintenance of scalable, reliable Java-based enterprise systems.
+              I am a Senior Software Engineer at Arenberg AG, building backend and AI systems for financial intelligence and healthcare platforms. My work covers scalable APIs, data pipelines, and cloud infrastructure with Python, FastAPI, Java, PostgreSQL, and AWS.
             </p>
             <p className="text-muted-foreground">
-              I am a quick learner, effective communicator, and proactive problem-solver who thrives in collaborative and agile environments. I am enthusiastic about contributing to innovative projects and further developing my expertise in Java and modern cloud technologies.
+              I have 5+ years of experience across product engineering, telecom systems, and applied AI research, including senior work at Axiata Digital Labs and medical imaging research. I like turning complex data and AI workflows into reliable production systems.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center">
               <a href="#contact" className="cosmic-button">
@@ -41,7 +41,7 @@ export const AboutMeSection = () => {
                 <div className="text-left">
                   <h4 className="font-semiboild">Software Engineering</h4>
                   <p className="text-muted-foreground">
-                    I’m a Software Engineer with of experience in building scalable, high-performance systems using Java Spring Boot, Python, PHP, and Angular, specializing in cloud-native microservices, CI/CD automation, and Docker/Kubernetes deployments.
+                    I build scalable systems with Python, FastAPI, Java Spring Boot, and modern web stacks, specializing in cloud-native microservices, event-driven processing, CI/CD, and Docker/Kubernetes on AWS and Google Cloud.
                   </p>
                 </div>
               </div>
@@ -54,7 +54,7 @@ export const AboutMeSection = () => {
                 <div className="text-left">
                   <h4 className="font-semiboild">Work Experience</h4>
                   <p className="text-muted-foreground">
-                    I have 3+ years of experience, including my role as a Senior Software Engineer at Axiata Digital Labs, developing telco based cloud-native systems with the microservices architecture, and earlier at the Centre for Defence Research & Development, contributing to a forensic image analysis project.
+                    Since January 2026 I have been a Senior Software Engineer at Arenberg AG, working on financial intelligence and medical AI platforms. Before that I spent over three years at Axiata Digital Labs on telco microservices, and earlier built software and research tools at the Centre for Defence Research & Development.
                   </p>
                 </div>
               </div>
