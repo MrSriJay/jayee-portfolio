@@ -19,8 +19,8 @@ export const Home = () => {
     });
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const coarse = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
-    if (reduce || coarse) return undefined;
+    const singlePage = window.matchMedia("(max-width: 1023px)").matches;
+    if (reduce || singlePage) return undefined;
 
     const root = document.documentElement;
     root.classList.add("scroll-driven");

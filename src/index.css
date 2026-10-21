@@ -313,25 +313,6 @@
   -webkit-backdrop-filter: blur(6px) saturate(1.25);
 }
 
-@media (hover: none) and (pointer: coarse) {
-  html {
-    scroll-snap-type: y proximity;
-    touch-action: pan-y;
-  }
-
-  .screen {
-    scroll-snap-stop: normal;
-  }
-
-  .site-bg {
-    filter: none;
-  }
-
-  html.is-scrolling .tech-field {
-    animation-play-state: paused;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -1263,6 +1244,23 @@
 .tl-item:focus-visible {
   outline: 2px solid hsl(var(--primary));
   outline-offset: 2px;
+}
+
+@media (max-width: 1023px) {
+  html {
+    scroll-snap-type: none;
+  }
+
+  .screen {
+    height: auto;
+    min-height: 100svh;
+    overflow: visible;
+  }
+
+  .screen-body {
+    max-height: none;
+    overflow: visible;
+  }
 }
 
 @media (max-width: 720px) {

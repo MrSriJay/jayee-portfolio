@@ -232,22 +232,6 @@ export const HeroNetwork = () => {
     if (motion.matches) paint(false);
     else loop();
 
-    const coarse = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
-    let scrollTimer = 0;
-    const onScroll = () => {
-      document.documentElement.classList.add("is-scrolling");
-      running = false;
-      window.clearTimeout(scrollTimer);
-      scrollTimer = window.setTimeout(() => {
-        document.documentElement.classList.remove("is-scrolling");
-        if (!document.hidden && !motion.matches) {
-          running = true;
-          loop();
-        }
-      }, 160);
-    };
-    if (coarse) window.addEventListener("scroll", onScroll, { passive: true });
-
     const observer = new ResizeObserver(reset);
     observer.observe(section);
     document.addEventListener("visibilitychange", onVisibility);
@@ -255,9 +239,6 @@ export const HeroNetwork = () => {
 
     return () => {
       running = false;
-      window.clearTimeout(scrollTimer);
-      document.documentElement.classList.remove("is-scrolling");
-      if (coarse) window.removeEventListener("scroll", onScroll);
       observer.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
       motion.removeEventListener("change", onVisibility);

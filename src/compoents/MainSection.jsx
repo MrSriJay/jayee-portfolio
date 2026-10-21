@@ -60,7 +60,7 @@ export const MainSection = () => {
   return (
     <section id="main" className="screen relative w-full">
       <div className="relative z-10 flex min-h-0 w-full flex-1 flex-col items-center px-3 sm:px-4">
-        <div className="hero-card ide-panel relative my-auto max-h-[calc(100%-2.75rem)] w-full max-w-[1080px] overflow-y-auto">
+        <div className="hero-card ide-panel relative my-auto w-full max-w-[1080px] max-lg:max-h-none max-lg:overflow-visible lg:max-h-[calc(100%-2.75rem)] lg:overflow-y-auto">
           <span className="drag-cursor" aria-hidden="true">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
               <path
