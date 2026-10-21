@@ -45,7 +45,7 @@ export const Navbar = () => {
           <div className="flex min-w-0 items-center gap-3">
             <a href="#main" className="inline-flex min-w-0 items-center gap-2 text-foreground">
               <Terminal className="h-4 w-4 shrink-0 text-primary" strokeWidth={1.75} aria-hidden="true" />
-              <span className="max-w-[7.5rem] truncate sm:max-w-none">jayee.me</span>
+              <span className="max-w-[8.75rem] truncate sm:max-w-none">jayanga.online</span>
             </a>
             <span className="hidden text-muted-foreground md:inline">main</span>
           </div>

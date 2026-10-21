@@ -313,6 +313,25 @@
   -webkit-backdrop-filter: blur(6px) saturate(1.25);
 }
 
+@media (hover: none) and (pointer: coarse) {
+  html {
+    scroll-snap-type: y proximity;
+    touch-action: pan-y;
+  }
+
+  .screen {
+    scroll-snap-stop: normal;
+  }
+
+  .site-bg {
+    filter: none;
+  }
+
+  html.is-scrolling .tech-field {
+    animation-play-state: paused;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
