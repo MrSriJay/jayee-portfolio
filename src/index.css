@@ -443,12 +443,9 @@
 }
 
 .type-run {
-  display: inline-block;
-  overflow: hidden;
+  display: inline;
   white-space: nowrap;
-  width: 0;
   vertical-align: bottom;
-  animation: type-run var(--dur) cubic-bezier(0.33, 0.08, 0.2, 1) var(--delay) both;
 }
 
 .caret-hello {
@@ -1657,7 +1654,7 @@
   }
 
   .type-run {
-    width: calc(var(--n) * 1ch);
+    width: auto;
     animation: none;
   }
 

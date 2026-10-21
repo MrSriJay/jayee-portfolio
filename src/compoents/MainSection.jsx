@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Bot, Brain, Cloud, Code2, Download, FolderGit2, Loader2, Server } from "lucide-react";
 
 const signals = [
@@ -16,45 +16,46 @@ const HELLO_DUR = 980;
 const NAME_DELAY = ENTER_MS + HELLO_DUR + 220;
 const NAME_DUR = 1280;
 
+function useTypedLine(text, delay, duration, reduce) {
+  const [count, setCount] = useState(reduce ? text.length : 0);
+
+  useEffect(() => {
+    if (reduce) {
+      setCount(text.length);
+      return undefined;
+    }
+    setCount(0);
+    let frame = 0;
+    let cancelled = false;
+    const timer = window.setTimeout(() => {
+      const start = performance.now();
+      const tick = (now) => {
+        if (cancelled) return;
+        const progress = Math.min(1, (now - start) / duration);
+        setCount(progress >= 1 ? text.length : Math.floor(progress * text.length));
+        if (progress < 1) frame = window.requestAnimationFrame(tick);
+      };
+      frame = window.requestAnimationFrame(tick);
+    }, delay);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+      window.cancelAnimationFrame(frame);
+    };
+  }, [text, delay, duration, reduce]);
+
+  return text.slice(0, count);
+}
+
 export const MainSection = () => {
   const reduce =
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const [saving, setSaving] = useState(false);
-  const statusRef = useRef(null);
-
-  useEffect(() => {
-    const node = statusRef.current;
-    if (!node) return undefined;
-    if (reduce) {
-      node.textContent = `Ln 2, Col ${NAME.length}`;
-      return undefined;
-    }
-    const start = performance.now();
-    let frame = 0;
-    const tick = (now) => {
-      const t = now - start;
-      let line = 1;
-      let col = 1;
-      if (t < HELLO_DELAY) {
-        col = 1;
-      } else if (t < HELLO_DELAY + HELLO_DUR) {
-        col = Math.max(1, Math.round(((t - HELLO_DELAY) / HELLO_DUR) * GREETING.length));
-      } else if (t < NAME_DELAY) {
-        col = GREETING.length;
-      } else if (t < NAME_DELAY + NAME_DUR) {
-        line = 2;
-        col = Math.max(1, Math.round(((t - NAME_DELAY) / NAME_DUR) * NAME.length));
-      } else {
-        node.textContent = `Ln 2, Col ${NAME.length}`;
-        return;
-      }
-      node.textContent = `Ln ${line}, Col ${col}`;
-      frame = window.requestAnimationFrame(tick);
-    };
-    frame = window.requestAnimationFrame(tick);
-    return () => window.cancelAnimationFrame(frame);
-  }, [reduce]);
+  const hello = useTypedLine(GREETING, HELLO_DELAY, HELLO_DUR, reduce);
+  const name = useTypedLine(NAME, NAME_DELAY, NAME_DUR, reduce);
+  const statusLine = name.length > 0 ? 2 : 1;
+  const statusCol = name.length > 0 ? name.length : Math.max(1, hello.length);
 
   return (
     <section id="main" className="screen relative w-full">
@@ -93,15 +94,11 @@ export const MainSection = () => {
           >
             <div>
               <p className="hero-line text-lg text-muted-foreground sm:text-2xl">
-                <span className="type-run" style={{ "--n": GREETING.length, "--dur": "var(--hello-dur)", "--delay": "var(--hello-delay)" }}>
-                  {GREETING}
-                </span>
+                <span className="type-run">{hello}</span>
                 <span className="caret caret-hello" aria-hidden="true" />
               </p>
               <h1 className="hero-line mt-2 min-h-[1.15em] text-4xl leading-tight text-foreground sm:text-6xl" aria-label={NAME}>
-                <span className="type-run" style={{ "--n": NAME.length, "--dur": "var(--name-dur)", "--delay": "var(--name-delay)" }}>
-                  {NAME}
-                </span>
+                <span className="type-run">{name}</span>
                 <span className="caret caret-name" aria-hidden="true" />
               </h1>
             </div>
@@ -153,7 +150,7 @@ export const MainSection = () => {
           <div className="ide-status">
             <span>main</span>
             <span>utf-8</span>
-            <span ref={statusRef}>Ln 1, Col 1</span>
+            <span>Ln {statusLine}, Col {statusCol}</span>
             <span className="ml-auto">zsh</span>
           </div>
         </div>
