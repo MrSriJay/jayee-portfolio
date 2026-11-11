@@ -35,6 +35,30 @@ const details = [
   },
 ];
 
+const ENDPOINT = "https://formsubmit.co/ajax/485aec7837a70e3d58f61a22516fd02b";
+
+const sendMessage = async ({ name, email, message }) => {
+  const response = await fetch(ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      name: name.trim(),
+      email: email.trim(),
+      message: message.trim(),
+      page: `${window.location.origin}${window.location.pathname}`,
+      _subject: `Portfolio message from ${name.trim()}`,
+      _replyto: email.trim(),
+      _template: "box",
+      _captcha: "false",
+    }),
+  });
+  const data = await response.json().catch(() => null);
+  const note = data?.message ?? "";
+  if (data?.success === true || data?.success === "true") return "sent";
+  if (/activat/i.test(note)) return "pending";
+  throw new Error("The message could not be sent.");
+};
+
 const socials = [
   {
     name: "LinkedIn",
@@ -52,6 +76,10 @@ const socials = [
 
 export const ContactSection = () => {
   const [copied, setCopied] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState("idle");
 
   const copyEmail = async () => {
     const address = "jayanga.sl@gmail.com";
@@ -73,6 +101,23 @@ export const ContactSection = () => {
     if (!ok) return;
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1200);
+  };
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    if (status === "sending") return;
+    setStatus("sending");
+    try {
+      const result = await sendMessage({ name, email, message });
+      setStatus(result);
+      if (result === "sent") {
+        setName("");
+        setEmail("");
+        setMessage("");
+      }
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -132,6 +177,56 @@ export const ContactSection = () => {
               </dl>
             </div>
           </div>
+          <form onSubmit={onSubmit} className="grid gap-3 border-t border-border px-4 py-5 sm:px-6">
+            <p className="text-[12px] text-muted-foreground">send a message</p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <label className="grid gap-1.5 text-[12px] text-muted-foreground">
+                name
+                <input
+                  name="name"
+                  type="text"
+                  required
+                  autoComplete="name"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  className="border border-border bg-background px-3 py-2 text-[13px] text-foreground outline-none focus:border-primary/50"
+                />
+              </label>
+              <label className="grid gap-1.5 text-[12px] text-muted-foreground">
+                email
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  className="border border-border bg-background px-3 py-2 text-[13px] text-foreground outline-none focus:border-primary/50"
+                />
+              </label>
+            </div>
+            <label className="grid gap-1.5 text-[12px] text-muted-foreground">
+              message
+              <textarea
+                name="message"
+                required
+                rows={4}
+                value={message}
+                onChange={(event) => setMessage(event.target.value)}
+                className="resize-y border border-border bg-background px-3 py-2 text-[13px] text-foreground outline-none focus:border-primary/50"
+              />
+            </label>
+            <div className="flex flex-wrap items-center gap-3">
+              <button type="submit" className="btn-cmd disabled:cursor-wait disabled:opacity-60" disabled={status === "sending"}>
+                {status === "sending" ? "sending" : "send"}
+              </button>
+              <p className="text-[12px] text-muted-foreground" role="status">
+                {status === "sent" && "Message sent. I’ll reply by email."}
+                {status === "pending" && "Check jayanga.sl@gmail.com and confirm the FormSubmit activation email, then send again."}
+                {status === "error" && "The message could not be sent. Email jayanga.sl@gmail.com directly."}
+              </p>
+            </div>
+          </form>
           <div className="flex flex-wrap gap-2 border-t border-border px-4 py-4 sm:px-6">
             {socials.map((item) => {
               const Icon = item.icon;

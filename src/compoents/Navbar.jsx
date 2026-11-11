@@ -1,6 +1,6 @@
 import { cn } from "../lib/Utils";
 import { useEffect, useState } from "react";
-import { Briefcase, FolderGit2, Home, Layers, Mail, Terminal, User } from "lucide-react";
+import { Award, Briefcase, FolderGit2, Home, Layers, Mail, Terminal, User } from "lucide-react";
 import { ThemeToggle } from "../compoents/ThemeToggle";
 
 const dockItems = [
@@ -12,7 +12,8 @@ const navItems = [
   { id: "02", name: "stack", href: "#skills", icon: Layers },
   { id: "03", name: "projects", href: "#projects", icon: FolderGit2 },
   { id: "04", name: "experience", href: "#highlights", icon: Briefcase },
-  { id: "05", name: "contact", href: "#contact", icon: Mail },
+  { id: "05", name: "licenses", href: "#licenses", icon: Award },
+  { id: "06", name: "contact", href: "#contact", icon: Mail },
 ];
 
 export const Navbar = () => {

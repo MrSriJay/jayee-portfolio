@@ -27,12 +27,14 @@ const projects = [
     skills: ["PHP", "Laravel", "MySQL"],
   },
   {
-    id: "rest",
+    id: "jobfit",
     index: "04",
-    title: "RESTful API",
+    title: "jobfit-ai",
     description:
-      "A Java Spring Boot API with PostgreSQL for web and Android clients, from the final-year Bachelor's project. Endpoints cover CRUD, validation, and authentication.",
-    skills: ["Java", "Spring Boot", "PostgreSQL", "Android"],
+      "An AI-powered job matching platform that analyses resumes against job descriptions using OpenAI, identifies skill gaps, evaluates candidate suitability, and provides actionable career recommendations.",
+    skills: ["React", "TypeScript", "OpenAI", "Express"],
+    href: "https://client-seven-lyart-30.vercel.app",
+    linkLabel: "Demo",
   },
   {
     id: "trajectory",
@@ -112,17 +114,22 @@ const Cover = ({ id }) => {
     );
   }
 
-  if (id === "rest") {
+  if (id === "jobfit") {
     return (
       <svg viewBox="0 0 360 200" className="h-full w-full" aria-hidden="true">
         <rect width="360" height="200" className="cover-plate" />
         <g className="cover-mark">
-          <path d="M78 46c-22 18-22 90 0 108" className="stroke-red" strokeWidth="14" />
-          <path d="M118 46c22 18 22 90 0 108" className="stroke-red-mid" strokeWidth="14" />
+          <rect x="46" y="36" width="104" height="128" rx="14" className="ink-blue" />
+          <circle cx="98" cy="72" r="14" className="fill-background" />
+          <rect x="66" y="98" width="64" height="8" rx="4" className="fill-background" />
+          <rect x="74" y="114" width="48" height="8" rx="4" className="ink-blue-soft" />
+          <rect x="82" y="130" width="32" height="8" rx="4" className="ink-blue-soft" />
+          <circle cx="180" cy="100" r="18" className="ink-blue-mid" />
+          <path d="M171 100l6 6 12-14" className="stroke-blue" strokeWidth="4" />
+          <rect x="214" y="52" width="108" height="22" rx="7" className="ink-blue" />
+          <rect x="214" y="86" width="88" height="22" rx="7" className="ink-blue-mid" />
+          <rect x="214" y="120" width="68" height="22" rx="7" className="ink-blue-soft" />
         </g>
-        <rect x="176" y="48" width="132" height="28" rx="8" className="ink-red" />
-        <rect x="176" y="86" width="108" height="28" rx="8" className="ink-red-mid" />
-        <rect x="176" y="124" width="84" height="28" rx="8" className="ink-red-soft" />
       </svg>
     );
   }

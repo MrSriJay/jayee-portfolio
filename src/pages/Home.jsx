@@ -7,6 +7,7 @@ import { SkillsSections } from "../compoents/SkillsSections";
 import { ProjectsSections } from "../compoents/ProjectsSection";
 import { ContactSection } from "../compoents/ConstactSection.jsx";
 import { EducationSection } from "../compoents/EducationSection.jsx";
+import { CertificationsSection } from "../compoents/CertificationsSection.jsx";
 import { RecruiterChat } from "../compoents/RecruiterChat.jsx";
 
 export const Home = () => {
@@ -297,6 +298,7 @@ export const Home = () => {
         <SkillsSections />
         <ProjectsSections />
         <EducationSection />
+        <CertificationsSection />
         <ContactSection />
       </main>
       <RecruiterChat />

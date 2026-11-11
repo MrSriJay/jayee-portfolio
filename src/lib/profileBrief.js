@@ -39,6 +39,12 @@ const skills = [
   "bigquery",
   "kafka",
   "openai",
+  "claude",
+  "langchain",
+  "langgraph",
+  "langsmith",
+  "mcp",
+  "cursor",
   "pytorch",
   "tensorflow",
   "react",
@@ -123,15 +129,19 @@ export const answerFromProfile = (question) => {
   }
 
   if (/\b(projects|portfolio pieces|side project)\b/.test(q)) {
-    return "Projects on the site include an AI customer-service chatbot (FastAPI, OpenAI, Supabase), #Find hashtag prediction (CNN-LSTM), a carbon footprint system for JAT Holdings, a Spring Boot REST API, an Android bullet-trajectory tool published with Elsevier in July 2021, and whole-slide image research at NUIST.";
+    return "Projects on the site include jobfit-ai, which matches resumes to job descriptions with OpenAI (demo at https://client-seven-lyart-30.vercel.app), an AI customer-service chatbot (FastAPI, OpenAI, Supabase), #Find hashtag prediction (CNN-LSTM), a carbon footprint system for JAT Holdings, an Android bullet-trajectory tool published with Elsevier in July 2021, and whole-slide image research at NUIST.";
   }
 
   if (/\b(publication|published|sciencedirect|elsevier|paper|bullet trajectory)\b/.test(q)) {
     return "In July 2021 Elsevier published his work on an Android tool that estimates the angle and trajectory of perforated AK bullets in 1 mm sheet metal. He built it in Java during a defence-research internship and it was delivered to the Sri Lanka Police.";
   }
 
+  if (/\b(certif|license|licence|credential|claude academy|cisco|iot)\b/.test(q)) {
+    return "Certifications: Oracle Agentic AI Certified Foundations Associate, issued November 2026 and valid until November 2028 (credential 103573878AAI26OFA). Claude Academy: AI Fluency — Framework and Foundations, Anthropic, November 2026. AI Reasoning Models in Practice: Building an AI-Powered Coach, LinkedIn, December 2025. Introduction to IoT, Cisco, March 2021.";
+  }
+
   if (/\b(stack|skills|skill set|tech stack|technologies|what can he)\b/.test(q)) {
-    return "His main languages are Python, Java, SQL, JavaScript, TypeScript, PHP, and C#. Backend work uses FastAPI, Spring Boot, Django, Node.js, and Laravel. AI work uses OpenAI, Anthropic, Ollama, PyTorch, and TensorFlow. Data and cloud work includes PostgreSQL, MongoDB, Redis, BigQuery, Kafka, AWS, Docker, and Kubernetes.";
+    return "His main languages are Python, Java, SQL, JavaScript, TypeScript, PHP, and C#. Backend work uses FastAPI, Spring Boot, Django, Node.js, and Laravel. AI work uses OpenAI, Claude, LangChain, LangGraph, LangSmith, Model Context Protocol (MCP), OCI Enterprise AI, Ollama, MedGemma, PyTorch, and TensorFlow. Certifications include the Oracle Agentic AI Certified Foundations Associate (Nov 2026–Nov 2028), Claude Academy AI Fluency from Anthropic (Nov 2026), a LinkedIn course on AI reasoning models (Dec 2025), and Cisco Introduction to IoT (Mar 2021). Data and cloud work includes PostgreSQL, MongoDB, Redis, BigQuery, Kafka, AWS, Docker, and Kubernetes.";
   }
 
   const skill = [...skills].sort((a, b) => b.length - a.length).find((name) => q.includes(name));
